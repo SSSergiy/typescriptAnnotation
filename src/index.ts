@@ -1,5 +1,5 @@
 class School {
-  directions = [];
+  directions: any = [];
 
   addDirection(direction: never): void {
     this.directions.push(direction);
@@ -7,7 +7,7 @@ class School {
 }
 
 class Direction {
-  levels: never[];
+  levels: any;
   private _name: string;
 
   get name(): string {
@@ -27,7 +27,7 @@ class Direction {
 class Level {
   private _name: string;
   private _program: string;
-  groups: never[];
+  groups: any;
 
   constructor(name: string, program: string) {
     this._name = name;
@@ -49,7 +49,7 @@ class Level {
 }
 
 class Group {
-  private _students: never[];
+  private _students: any;
   directionName: string;
   levelName: string;
 
@@ -58,7 +58,7 @@ class Group {
     this.levelName = levelName;
     this._students = [];
   }
-  get students(): never[] {
+  get students(): any {
     return this._students;
   }
 
@@ -66,9 +66,9 @@ class Group {
     this._students.push(student);
   }
 
-  showPerformance(): never[] {
-    const sortedStudents = this.students.toSorted(
-      (a, b) => b.getPerformanceRating() - a.getPerformanceRating()
+  showPerformance(): any {
+    const sortedStudents: any = this.students.toSorted(
+      (a: any, b: any) => b.getPerformanceRating() - a.getPerformanceRating()
     );
 
     return sortedStudents;
@@ -108,16 +108,16 @@ class Student {
   }
 
   getPerformanceRating(): number {
-    const gradeValues: number[] = Object.values(this.grades);
+    const gradeValues: any = Object.values(this.grades);
 
     if (gradeValues.length === 0) return 0;
 
     const averageGrade =
-      gradeValues.reduce((sum, grade): any => sum + grade, 0) /
+      gradeValues.reduce((sum: number, grade: number): any => sum + grade, 0) /
       gradeValues.length;
 
     const attendancePercentage =
-      (this.attendance.filter((present): never => present).length /
+      (this.attendance.filter((present: never): never => present).length /
         this.attendance.length) *
       100;
 
