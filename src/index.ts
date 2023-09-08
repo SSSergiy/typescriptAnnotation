@@ -208,11 +208,11 @@ class Student {
   }
 
   setGrade(grade: number): void {
-    if (typeof grade === 'number' && grade >= 0 && grade <= 100) {
-      this._grades.push(grade);
-    } else {
+    if (grade < 0 && grade > 100) {
       throw new Error('The score must be a number between 0 and 100.');
     }
+
+    this._grades.push(grade);
   }
 
   get fullName(): string {
