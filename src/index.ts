@@ -12,7 +12,7 @@ class Employee {
     public lastName: string,
     public paymentInfo: string,
     public salary: number,
-    public status: 'активний' | 'неактивний' | 'у неоплачуваній відпустці',
+    public status: 'active' | 'inactive' | 'On unpaid leave',
     public department: Department
   ) {}
 }
@@ -34,12 +34,25 @@ class Department {
     return this.balance + this.budget.debit - this.budget.credit;
   }
 
+  addPreHiredEmployee(preHiredEmployee: PreHiredEmployee): void {
+    if (this.isEmployee(preHiredEmployee)) {
+      const employee = this.convertToEmployee(preHiredEmployee);
+      this.addEmployee(employee);
+    } else {
+      throw new Error('Error: object is not a type Employee.');
+    }
+  }
+
   addEmployee(employee: Employee): void {
     this.employees.push(employee);
-    this.balance -= employee.salary;
+    this.subtractFromBalance(employee.salary);
   }
 
   removeEmployee(employee: Employee): void {
+    if (!this.isEmployeeActive(employee)) {
+      throw new Error('Error: object Employee inactive.');
+    }
+
     const index = this.employees.indexOf(employee);
     if (index !== -1) {
       this.employees.splice(index, 1);
@@ -59,20 +72,35 @@ class Department {
 
   // Method to convert PreHiredEmployee to Employee
   convertToEmployee(preHiredEmployee: PreHiredEmployee): Employee {
-    const employee = new Employee(preHiredEmployee.firstName, preHiredEmployee.lastName, '', 0, 'активний', this);
+    const employee = new Employee(
+      preHiredEmployee.firstName,
+      preHiredEmployee.lastName,
+      '',
+      0,
+      'active',
+      this
+    );
     this.addEmployee(employee);
     return employee;
+  }
+
+  isEmployeeActive(employee: Employee): boolean {
+    return employee.status === 'active';
+  }
+
+  isEmployee(employee: Employee | PreHiredEmployee): employee is Employee {
+    return (employee as Employee).paymentInfo !== undefined;
   }
 }
 
 class AccountingDepartment extends Department {
   constructor() {
-    super('Бухгалтерія', 'accounting', { debit: 0, credit: 0 });
+    super('ACCOUNTING', 'accounting', { debit: 0, credit: 0 });
   }
 
   paySalaries(): void {
     this.getEmployees().forEach((employee): void => {
-      if (employee.status === 'активний') {
+      if (employee.status === 'active') {
         this.subtractFromBalance(employee.salary);
         // Your code to pay the employee's salary
       }
@@ -96,20 +124,26 @@ class Company {
 }
 
 // Example usage
-const company = new Company('Моя Компанія');
+const company = new Company('My company');
 const accounting = new AccountingDepartment();
 const itDepartment = new Department('IT', 'it', { debit: 10000, credit: 5000 });
 
 company.addDepartment(accounting);
 company.addDepartment(itDepartment);
 
-const preHiredEmployee = new PreHiredEmployee('Ім\'я', 'Прізвище', '1234567890');
+const preHiredEmployee = new PreHiredEmployee('Donald', 'Moriarty', '1234567890');
 const employee = itDepartment.convertToEmployee(preHiredEmployee);
 company.addEmployee(employee);
 
-console.log('Баланс IT-департаменту:', itDepartment.calculateBalance());
-console.log('Зарплата всього персоналу до виплати:', accounting.calculateBalance());
+console.log('IT department balance sheet:', itDepartment.calculateBalance());
+console.log('Salaries of all staff before payment:', accounting.calculateBalance());
 
 accounting.paySalaries();
 
-console.log('Зарплата всього персоналу після виплати:', accounting.calculateBalance());
+console.log('Salary of all staff:', accounting.calculateBalance());
+
+
+
+
+
+
