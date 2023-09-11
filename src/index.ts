@@ -55,17 +55,14 @@ class Department {
     }
   }
 
-  // Protected method to access employees
   protected getEmployees(): Employee[] {
     return this.employees;
   }
 
-  // Protected method to subtract from the balance
   protected subtractFromBalance(amount: number): void {
     this.balance -= amount;
   }
 
-  // Method to convert PreHiredEmployee to Employee
   convertToEmployee(preHiredEmployee: PreHiredEmployee): Employee {
     const employee = new Employee(
       preHiredEmployee.firstName,
@@ -101,7 +98,6 @@ class AccountingDepartment extends Department {
     this.getEmployees().forEach((employee): void => {
       if (employee.status === 'active') {
         this.subtractFromBalance(employee.salary);
-        // Your code to pay the employee's salary
       }
     });
   }
@@ -122,7 +118,6 @@ class Company {
   }
 }
 
-// Example usage
 const company = new Company('My company');
 const accounting = new AccountingDepartment();
 const itDepartment = new Department('IT', 'it', { debit: 10000, credit: 5000 });

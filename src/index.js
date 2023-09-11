@@ -60,15 +60,12 @@ var Department = /** @class */ (function () {
             this.balance += employee.salary;
         }
     };
-    // Protected method to access employees
     Department.prototype.getEmployees = function () {
         return this.employees;
     };
-    // Protected method to subtract from the balance
     Department.prototype.subtractFromBalance = function (amount) {
         this.balance -= amount;
     };
-    // Method to convert PreHiredEmployee to Employee
     Department.prototype.convertToEmployee = function (preHiredEmployee) {
         var employee = new Employee(preHiredEmployee.firstName, preHiredEmployee.lastName, '', 0, 'active', this);
         this.addEmployee(employee);
@@ -96,7 +93,6 @@ var AccountingDepartment = /** @class */ (function (_super) {
         this.getEmployees().forEach(function (employee) {
             if (employee.status === 'active') {
                 _this.subtractFromBalance(employee.salary);
-                // Your code to pay the employee's salary
             }
         });
     };
@@ -116,7 +112,6 @@ var Company = /** @class */ (function () {
     };
     return Company;
 }());
-// Example usage
 var company = new Company('My company');
 var accounting = new AccountingDepartment();
 var itDepartment = new Department('IT', 'it', { debit: 10000, credit: 5000 });
