@@ -8,7 +8,7 @@ class PreHiredEmployee {
 
 class Employee {
   constructor(
-    public firstName: string,
+    public firstName: string, 
     public lastName: string,
     public paymentInfo: string,
     public salary: number,
@@ -88,8 +88,10 @@ class Department {
     return employee.status === 'active';
   }
 
-  isEmployee(employee: Employee | PreHiredEmployee): employee is Employee {
-    return (employee as Employee).paymentInfo !== undefined;
+  isEmployee(employee: Employee | PreHiredEmployee): asserts employee is Employee {
+    if (!(employee as Employee).paymentInfo) {
+      throw new Error('Error: object is not a type Employee.');
+    }
   }
 }
 
