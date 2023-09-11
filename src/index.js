@@ -44,22 +44,16 @@ var Department = /** @class */ (function () {
         return this.balance + this.budget.debit - this.budget.credit;
     };
     Department.prototype.addPreHiredEmployee = function (preHiredEmployee) {
-        if (this.isEmployee(preHiredEmployee)) {
-            var employee_1 = this.convertToEmployee(preHiredEmployee);
-            this.addEmployee(employee_1);
-        }
-        else {
-            throw new Error('Error: object is not a type Employee.');
-        }
+        this.assertEmployee(preHiredEmployee);
+        var employee = this.convertToEmployee(preHiredEmployee);
+        this.addEmployee(employee);
     };
     Department.prototype.addEmployee = function (employee) {
         this.employees.push(employee);
         this.subtractFromBalance(employee.salary);
     };
     Department.prototype.removeEmployee = function (employee) {
-        if (!this.isEmployeeActive(employee)) {
-            throw new Error('Error: object Employee inactive.');
-        }
+        this.assertEmployeeActive(employee);
         var index = this.employees.indexOf(employee);
         if (index !== -1) {
             this.employees.splice(index, 1);
@@ -80,11 +74,15 @@ var Department = /** @class */ (function () {
         this.addEmployee(employee);
         return employee;
     };
-    Department.prototype.isEmployeeActive = function (employee) {
-        return employee.status === 'active';
+    Department.prototype.assertEmployeeActive = function (employee) {
+        if (employee.status !== 'active') {
+            throw new Error('Error: object Employee inactive.');
+        }
     };
-    Department.prototype.isEmployee = function (employee) {
-        return employee.paymentInfo !== undefined;
+    Department.prototype.assertEmployee = function (employee) {
+        if (!employee.paymentInfo) {
+            throw new Error('Error: object is not a type Employee.');
+        }
     };
     return Department;
 }());
@@ -118,7 +116,6 @@ var Company = /** @class */ (function () {
     };
     return Company;
 }());
-
 // Example usage
 var company = new Company('My company');
 var accounting = new AccountingDepartment();

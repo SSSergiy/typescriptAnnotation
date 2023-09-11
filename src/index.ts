@@ -8,7 +8,7 @@ class PreHiredEmployee {
 
 class Employee {
   constructor(
-    public firstName: string, 
+    public firstName: string,
     public lastName: string,
     public paymentInfo: string,
     public salary: number,
@@ -35,12 +35,9 @@ class Department {
   }
 
   addPreHiredEmployee(preHiredEmployee: PreHiredEmployee): void {
-    if (this.isEmployee(preHiredEmployee)) {
-      const employee = this.convertToEmployee(preHiredEmployee);
-      this.addEmployee(employee);
-    } else {
-      throw new Error('Error: object is not a type Employee.');
-    }
+    this.assertEmployee(preHiredEmployee);
+    const employee = this.convertToEmployee(preHiredEmployee);
+    this.addEmployee(employee);
   }
 
   addEmployee(employee: Employee): void {
@@ -49,9 +46,7 @@ class Department {
   }
 
   removeEmployee(employee: Employee): void {
-    if (!this.isEmployeeActive(employee)) {
-      throw new Error('Error: object Employee inactive.');
-    }
+    this.assertEmployeeActive(employee);
 
     const index = this.employees.indexOf(employee);
     if (index !== -1) {
@@ -84,11 +79,13 @@ class Department {
     return employee;
   }
 
-  isEmployeeActive(employee: Employee): boolean {
-    return employee.status === 'active';
+  assertEmployeeActive(employee: Employee): asserts employee is Employee {
+    if (employee.status !== 'active') {
+      throw new Error('Error: object Employee inactive.');
+    }
   }
 
-  isEmployee(employee: Employee | PreHiredEmployee): asserts employee is Employee {
+  assertEmployee(employee: Employee | PreHiredEmployee): asserts employee is Employee {
     if (!(employee as Employee).paymentInfo) {
       throw new Error('Error: object is not a type Employee.');
     }
