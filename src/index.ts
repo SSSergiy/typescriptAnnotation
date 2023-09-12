@@ -1,3 +1,9 @@
+enum EmployeeStatus {
+  Active = 'active',
+  Inactive = 'inactive',
+  UnpaidLeave = 'On unpaid leave',
+}
+
 class PreHiredEmployee {
   constructor(
     public firstName: string,
@@ -12,7 +18,7 @@ class Employee {
     public lastName: string,
     public paymentInfo: string,
     public salary: number,
-    public status: 'active' | 'inactive' | 'On unpaid leave',
+    public status: EmployeeStatus,
     public department: Department
   ) {}
 }
@@ -69,7 +75,7 @@ class Department {
       preHiredEmployee.lastName,
       '',
       0,
-      'active',
+      EmployeeStatus.Active,
       this
     );
     this.addEmployee(employee);
@@ -77,7 +83,7 @@ class Department {
   }
 
   assertEmployeeActive(employee: Employee): asserts employee is Employee {
-    if (employee.status !== 'active') {
+    if (employee.status !== EmployeeStatus.Active) {
       throw new Error('Error: object Employee inactive.');
     }
   }
@@ -96,7 +102,7 @@ class AccountingDepartment extends Department {
 
   paySalaries(): void {
     this.getEmployees().forEach((employee): void => {
-      if (employee.status === 'active') {
+      if (employee.status === EmployeeStatus.Active) {
         this.subtractFromBalance(employee.salary);
       }
     });

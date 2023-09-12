@@ -13,6 +13,12 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var EmployeeStatus;
+(function (EmployeeStatus) {
+    EmployeeStatus["Active"] = "active";
+    EmployeeStatus["Inactive"] = "inactive";
+    EmployeeStatus["UnpaidLeave"] = "On unpaid leave";
+})(EmployeeStatus || (EmployeeStatus = {}));
 var PreHiredEmployee = /** @class */ (function () {
     function PreHiredEmployee(firstName, lastName, bankAccountNumber) {
         this.firstName = firstName;
@@ -67,12 +73,12 @@ var Department = /** @class */ (function () {
         this.balance -= amount;
     };
     Department.prototype.convertToEmployee = function (preHiredEmployee) {
-        var employee = new Employee(preHiredEmployee.firstName, preHiredEmployee.lastName, '', 0, 'active', this);
+        var employee = new Employee(preHiredEmployee.firstName, preHiredEmployee.lastName, '', 0, EmployeeStatus.Active, this);
         this.addEmployee(employee);
         return employee;
     };
     Department.prototype.assertEmployeeActive = function (employee) {
-        if (employee.status !== 'active') {
+        if (employee.status !== EmployeeStatus.Active) {
             throw new Error('Error: object Employee inactive.');
         }
     };
@@ -91,7 +97,7 @@ var AccountingDepartment = /** @class */ (function (_super) {
     AccountingDepartment.prototype.paySalaries = function () {
         var _this = this;
         this.getEmployees().forEach(function (employee) {
-            if (employee.status === 'active') {
+            if (employee.status === EmployeeStatus.Active) {
                 _this.subtractFromBalance(employee.salary);
             }
         });
