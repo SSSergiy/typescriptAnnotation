@@ -1,141 +1,132 @@
-//------------------------------------------------------------------------------------//
-// Напишіть функцію isString, яка перевірятиме, чи є передане значення рядком.
-//  Потім використовуйте її для звуження типу змінної.
-//------------------------------------------------------------------------------------//
-const isString = (value: any): value is string => {
-   return  typeof value === "string"
+//---------------------------------------------------------------------------//
+// Створіть інтерфейс, який описує структуру об'єкта, що представляє калькулятор.
+// Калькулятор повинен мати методи для виконання арифметичних операцій:
+// додавання, віднімання, множення та ділення.Потім створіть функцію calculate, 
+//яка приймає об'єкт цього типу та виконує операцію і повертає результат.
+//---------------------------------------------------------------------------//
+interface Calculator {
+  add(a: number, b: number): number;
+  subtract(a: number, b: number): number;
+  multiply(a: number, b: number): number;
+  divide(a: number, b: number): number;
+  [key: string]: (a: number, b: number) => number; 
 }
-//------------------------------------------------------------------------------------//
-// У вас є масив з елементами різних типів. 
-// Напишіть функцію, яка приймає цей масив і фільтрує його так,
-//    щоб у підсумку в ньому залишилися тільки рядки.
-// Використовуйте захисника типу для цього завдання.
-//------------------------------------------------------------------------------------//
-const filterStrings = (arr: any[]): string[] => {
-   return arr.filter(
-      (item): item is string => isString(item)
-      )
+
+const calculator: Calculator = {
+  add: (a, b): number => a + b,
+  subtract: (a, b): number => a - b,
+  multiply: (a, b): number => a * b,
+  divide: (a, b): number => {
+    if (b === 0) {
+      throw new Error("Division by zero is impossible");
+    }
+    return a / b;
+  },
+};
+
+const calculate = (calculator: Calculator, operation: string, num1: number, num2: number): number => {
+  if (!calculator[operation]) {
+    throw new Error("Unknown operation");
+  }
+  return calculator[operation](num1, num2);
 }
-//------------------------------------------------------------------------------------//
-// У вас є об'єкт, який може містити довільні властивості.
-// Напишіть функцію, яка приймає цей об'єкт і повертає значення однієї з властивостей,
-//  якщо воно існує і має певний тип.
-//------------------------------------------------------------------------------------//
-const returnValue = (data: any, key: string, expectedType: string): any | undefined  => {
-   if (data[key] && typeof data[key] === expectedType) {
-      return data[key]
-   } else {
-      return undefined
-   }
+
+//---------------------------------------------------------------------------//
+// Уявіть, що ви створюєте інтерфейси для веб - сервісу,
+// який надає інформацію про книги.Створіть інтерфейси Book,
+// Author, і BookService, які описують структуру даних книжок,
+// авторів і методи веб - сервісу для отримання інформації про книжки та авторів.
+// Потім створіть об'єкт bookService, який імітує роботу веб-сервісу,
+// і використовуйте інтерфейси для отримання інформації про книги та авторів.
+//---------------------------------------------------------------------------//
+
+interface Book {
+  id: number;
+  title: string;
+  authorId: number;
+  publicationYear: number;
 }
-//------------------------------------------------------------------------------------//
-// Створіть кілька захисників типу, кожен з яких перевіряє певний аспект об'єкта
-// (наприклад, наявність певної властивості або її тип).Потім напишіть функцію,
-// яка використовує цих захисників у комбінації для звуження типу об'єкта до більш конкретного типу.
-//------------------------------------------------------------------------------------//
-// Захисник типу для перевірки наявності властивості "name"
-const  hasNameProperty = (obj: any): obj is { name: string }=> {
-   return "name" in obj;
- }
- 
- // Захисник типу для перевірки типу властивості "age" як number
- const hasValidAgeProperty = (obj: any): obj is { age: number } =>{
-   return typeof obj.age === "number";
- }
- interface AgeResult {
-   nameResult: string | undefined;
-   ageResult: number | undefined;
- }
- // Функція, яка використовує захисники типу для звуження типу об'єкта
- function processObject(obj: any):AgeResult {
-   let nameResult: string | undefined = undefined;
-   let ageResult: number | undefined = undefined;
-   if (hasNameProperty(obj)) {
-     nameResult = obj.name;
-   }
-   if (hasValidAgeProperty(obj)) {
-     ageResult = obj.age;
-   }
-   return { nameResult, ageResult };
- }
-//------------------------------------------------------------------------------------//
-// У вас є змінна, яка може бути одного з декількох типів(наприклад, рядок або число).
-// Напишіть функцію, яка приймає цю змінну і виконує довільні операції,
-// специфічні для кожного з типів.
-//------------------------------------------------------------------------------------//
-const performOperation = (input: string | number): string | number | never => {
-   if (typeof input === 'string') {
-     return input
-   } else if (typeof input === 'number') {
-      return input
-   } else {
-      return input
-   }
+
+interface Author {
+  id: number;
+  name: string;
+  birthYear: number;
 }
-//------------------------------------------------------------------------------------//
-// Створіть захисник типу, який перевірятиме, чи є передане значення функцією.
-// Потім напишіть функцію, яка використовує цей гард для звуження типу змінної
-// і викликає передану функцію, якщо вона існує.
-//------------------------------------------------------------------------------------//
-const isFunction = (value: any): value is Function =>{
-   return typeof value === 'function';
- }
- 
- const callIfFunction=(func: any): Function | undefined=> {
-   if (isFunction(func)) {
-      return  func(); 
-   } else {
-     
-      return undefined
-   }
- }
-//------------------------------------------------------------------------------------//
-// Створіть класи з ієрархією успадкування і потім напишіть функцію,
-// яка використовує захисник типу для звуження типу об'єктів,
-// що базуються на цій ієрархії.
-//------------------------------------------------------------------------------------//
-class Animal {
-   name: string;
- 
-   constructor(name: string) {
-     this.name = name;
-   }
- }
- 
- class Dog extends Animal {
-   bark(): string  {
-      return `bark`
-   }
- }
- 
- class Cat extends Animal {
-   meow(): string  {
-      return `meow`
-   }
- }
- 
- class Bird extends Animal {
-   fly(): string  {
-      return `fly`
-   }
- }
- 
- class Fish extends Animal {
-   swim(): string {
-     return `swim`;
-   }
- }
- 
- const performAction = (animal: Animal): void => {
-   if (animal instanceof Dog) {
-     animal.bark(); 
-   } else if (animal instanceof Cat) {
-     animal.meow(); 
-   } else if (animal instanceof Bird) {
-     animal.fly(); 
-   } else if (animal instanceof Fish) {
-     animal.swim(); 
-   } else {
-      animal.name
-   }
- }
+
+interface BookService {
+  getBookById(id: number): Book | undefined;
+  getBooksByTitle(title: string): Book[];
+  getBooksByPublicationYear(year: number): Book[];
+  getBooksByAuthor(authorId: number): Book[];
+  getBooksPublishedAfterYear(year: number): Book[];
+  getBooksPublishedBeforeYear(year: number): Book[];
+  getBooksByAuthorAndTitle(authorId: number, title: string): Book[];
+  getAllAuthors(): Author[];
+}
+
+const books: Book[] = [
+  { id: 1, title: 'Book 1', authorId: 1, publicationYear: 2020 },
+  { id: 2, title: 'Book 2', authorId: 2, publicationYear: 2018 },
+  { id: 3, title: 'Book 3', authorId: 1, publicationYear: 2022 },
+];
+
+const authors: Author[] = [
+  { id: 1, name: 'book author 1', birthYear: 1980 },
+  { id: 2, name: 'book author 2', birthYear: 1990 },
+];
+
+const bookService: BookService = {
+  getBookById(id: number): Book | undefined {
+    return books.find(book => book.id === id);
+  },
+  getBooksByTitle(title: string): Book[] {
+    return books.filter(book => book.title === title);
+  },
+  getBooksByPublicationYear(year: number): Book[] {
+    return books.filter(book => book.publicationYear === year);
+  },
+  getBooksByAuthor(authorId: number): Book[] {
+    return books.filter(book => book.authorId === authorId);
+  },
+  getBooksPublishedAfterYear(year: number): Book[] {
+    return books.filter(book => book.publicationYear > year);
+  },
+  getBooksPublishedBeforeYear(year: number): Book[] {
+    return books.filter(book => book.publicationYear < year);
+  },
+  getBooksByAuthorAndTitle(authorId: number, title: string): Book[] {
+    return books.filter(book => book.authorId === authorId && book.title === title);
+  },
+  getAllAuthors(): Author[] {
+    return authors;
+  },
+};
+
+const bookId = 1;
+const book = bookService.getBookById(bookId);
+const author = bookService.getAllAuthors().find(author => author.id === (book?.authorId ?? -1));
+
+console.log(`Book title: ${book?.title ?? 'Not found'}`);
+console.log(`Author: ${author?.name ?? 'Not found'}`);
+
+const authorId = 1;
+const booksByAuthor = bookService.getBooksByAuthor(authorId);
+console.log(`Book by author with this ID ${authorId}:`);
+booksByAuthor.forEach(book => {
+  console.log(`- ${book.title}`);
+});
+
+const bookTitle = 'Book 1';
+const booksByTitle = bookService.getBooksByTitle(bookTitle);
+console.log(`Books with this title "${bookTitle}":`);
+booksByTitle.forEach(book => {
+  console.log(`- ${book.title}`);
+});
+
+const publicationYear = 2020;
+const booksByPublicationYear = bookService.getBooksByPublicationYear(publicationYear);
+console.log(`Books published in ${publicationYear} :`);
+booksByPublicationYear.forEach(book => {
+  console.log(`- ${book.title}`);
+});
+
