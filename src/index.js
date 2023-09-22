@@ -35,9 +35,6 @@ var Shape = /** @class */ (function () {
     Shape.prototype.calculateArea = function () {
         return 0;
     };
-    Shape.prototype.print = function () {
-        console.log("Shape: ".concat(this.name, ", Color: ").concat(this.color));
-    };
     return Shape;
 }());
 var Circle = /** @class */ (function (_super) {
@@ -50,10 +47,6 @@ var Circle = /** @class */ (function (_super) {
     }
     Circle.prototype.calculateArea = function () {
         return Math.PI * this.radius * this.radius;
-    };
-    Circle.prototype.print = function () {
-        _super.prototype.print.call(this);
-        console.log("Area: ".concat(this.calculateArea()));
     };
     return Circle;
 }(Shape));
@@ -70,7 +63,7 @@ var Rectangle = /** @class */ (function (_super) {
         return this.width * this.height;
     };
     Rectangle.prototype.print = function () {
-        _super.prototype.print.call(this);
+        console.log("Shape: ".concat(this.name, ", Color: ").concat(this.color));
         console.log("Area: ".concat(this.calculateArea()));
     };
     return Rectangle;
@@ -84,7 +77,7 @@ var Square = /** @class */ (function (_super) {
         return _this;
     }
     Square.prototype.print = function () {
-        _super.prototype.print.call(this);
+        console.log("Shape: ".concat(this.name, ", Color: ").concat(this.color));
         console.log("Area: ".concat(this.calculateArea()));
     };
     return Square;
@@ -101,21 +94,19 @@ var Triangle = /** @class */ (function (_super) {
     Triangle.prototype.calculateArea = function () {
         return 0.5 * this.base * this.height;
     };
-    Triangle.prototype.print = function () {
-        _super.prototype.print.call(this);
-        console.log("Area: ".concat(this.calculateArea()));
-    };
     return Triangle;
 }(Shape));
 var redCircle = new Circle("Red", 5);
-redCircle.print();
-redCircle.print();
+console.log("Circle:");
+console.log("Shape: ".concat(redCircle.name, ", Color: ").concat(redCircle.color));
+console.log("Area: ".concat(redCircle.calculateArea()));
 var blueRectangle = new Rectangle("Blue", 4, 6);
-blueRectangle.calculateArea();
+console.log("Rectangle:");
 blueRectangle.print();
 var greenSquare = new Square("Green", 3);
-greenSquare.calculateArea();
+console.log("Square:");
 greenSquare.print();
 var yellowTriangle = new Triangle("Yellow", 4, 8);
-yellowTriangle.print();
-yellowTriangle.calculateArea();
+console.log("Triangle:");
+console.log("Shape: ".concat(yellowTriangle.name, ", Color: ").concat(yellowTriangle.color));
+console.log("Area: ".concat(yellowTriangle.calculateArea()));

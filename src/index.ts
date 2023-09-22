@@ -21,10 +21,6 @@ class Shape {
   protected calculateArea(): number {
     return 0;
   }
-
-  protected print(): void {
-    console.log(`Shape: ${this.name}, Color: ${this.color}`);
-  }
 }
 
 class Circle extends Shape {
@@ -38,28 +34,23 @@ class Circle extends Shape {
   public calculateArea(): number {
     return Math.PI * this.radius * this.radius;
   }
-
-  public print(): void {
-    super.print();
-    console.log(`Area: ${this.calculateArea()}`);
-  }
 }
 
 class Rectangle extends Shape {
   constructor(
     public readonly color: string,
-    public readonly width: number,
-    public readonly height: number
+    public width: number,
+    public height: number
   ) {
     super(ShapeName.Rectangle, color);
   }
 
-  public  calculateArea(): number {
+  public calculateArea(): number {
     return this.width * this.height;
   }
 
   public print(): void {
-    super.print();
+    console.log(`Shape: ${this.name}, Color: ${this.color}`);
     console.log(`Area: ${this.calculateArea()}`);
   }
 }
@@ -77,7 +68,7 @@ class Square extends Rectangle {
   }
 
   public print(): void {
-    super.print();
+    console.log(`Shape: ${this.name}, Color: ${this.color}`);
     console.log(`Area: ${this.calculateArea()}`);
   }
 }
@@ -85,8 +76,8 @@ class Square extends Rectangle {
 class Triangle extends Shape {
   constructor(
     public readonly color: string,
-    public readonly base: number,
-    public readonly height: number
+    public base: number,
+    public height: number
   ) {
     super(ShapeName.Triangle, color);
   }
@@ -94,25 +85,22 @@ class Triangle extends Shape {
   public calculateArea(): number {
     return 0.5 * this.base * this.height;
   }
-
-  public print(): void {
-    super.print();
-    console.log(`Area: ${this.calculateArea()}`);
-  }
 }
 
 const redCircle = new Circle("Red", 5);
-redCircle.print();
-redCircle.print();
+console.log("Circle:");
+console.log(`Shape: ${redCircle.name}, Color: ${redCircle.color}`);
+console.log(`Area: ${redCircle.calculateArea()}`);
 
 const blueRectangle = new Rectangle("Blue", 4, 6);
-blueRectangle.calculateArea();
+console.log("Rectangle:");
 blueRectangle.print();
 
 const greenSquare = new Square("Green", 3);
-greenSquare.calculateArea();
+console.log("Square:");
 greenSquare.print();
 
 const yellowTriangle = new Triangle("Yellow", 4, 8);
-yellowTriangle.print();
-yellowTriangle.calculateArea();
+console.log("Triangle:");
+console.log(`Shape: ${yellowTriangle.name}, Color: ${yellowTriangle.color}`);
+console.log(`Area: ${yellowTriangle.calculateArea()}`);
