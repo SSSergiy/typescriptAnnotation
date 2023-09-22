@@ -5,85 +5,114 @@
 // У Square і Rectangle зі свого боку є ще додатковий метод print,
 // який виводить рядок із формулою розрахунку площі
 /////////////////////////////////
+enum ShapeName {
+  Circle = "Circle",
+  Rectangle = "Rectangle",
+  Square = "Square",
+  Triangle = "Triangle",
+}
+
 class Shape {
-  protected readonly name: string;
-  protected readonly color: string;
+  constructor(
+    public readonly name: ShapeName,
+    public readonly color: string
+  ) {}
 
-  constructor(name: string, color: string) {
-    this.name = name;
-    this.color = color;
+  protected calculateArea(): number {
+    return 0;
   }
 
-  calculateArea(): number {
-    return 0; 
-  }
-
-  print(): void {
-    console.log(`Area of ${this.name} (Color: ${this.color}): ${this.calculateArea()}`);
+  protected print(): void {
+    console.log(`Shape: ${this.name}, Color: ${this.color}`);
   }
 }
 
 class Circle extends Shape {
-  private readonly radius: number;
-
-  constructor(name: string, color: string, radius: number) {
-    super(name, color);
-    this.radius = radius;
+  constructor(
+    public readonly color: string,
+    public readonly radius: number
+  ) {
+    super(ShapeName.Circle, color);
   }
 
-  calculateArea(): number {
+  public calculateArea(): number {
     return Math.PI * this.radius * this.radius;
+  }
+
+  public print(): void {
+    super.print();
+    console.log(`Area: ${this.calculateArea()}`);
   }
 }
 
 class Rectangle extends Shape {
-  private readonly width: number;
-  private readonly height: number;
-
-  constructor(name: string, color: string, width: number, height: number) {
-    super(name, color);
-    this.width = width;
-    this.height = height;
+  constructor(
+    public readonly color: string,
+    public readonly width: number,
+    public readonly height: number
+  ) {
+    super(ShapeName.Rectangle, color);
   }
 
-  calculateArea(): number {
+  public  calculateArea(): number {
     return this.width * this.height;
+  }
+
+  public print(): void {
+    super.print();
+    console.log(`Area: ${this.calculateArea()}`);
   }
 }
 
 class Square extends Rectangle {
-  constructor(name: string, color: string, sideLength: number) {
-    super(name, color, sideLength, sideLength);
+  constructor(
+    public readonly color: string,
+    public readonly sideLength: number
+  ) {
+    super(
+      color,
+      sideLength,
+      sideLength
+    );
+  }
+
+  public print(): void {
+    super.print();
+    console.log(`Area: ${this.calculateArea()}`);
   }
 }
 
 class Triangle extends Shape {
-  private readonly base: number;
-  private readonly height: number;
-
-  constructor(name: string, color: string, base: number, height: number) {
-    super(name, color);
-    this.base = base;
-    this.height = height;
+  constructor(
+    public readonly color: string,
+    public readonly base: number,
+    public readonly height: number
+  ) {
+    super(ShapeName.Triangle, color);
   }
 
-  calculateArea(): number {
-    return (0.5 * this.base * this.height);
+  public calculateArea(): number {
+    return 0.5 * this.base * this.height;
+  }
+
+  public print(): void {
+    super.print();
+    console.log(`Area: ${this.calculateArea()}`);
   }
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////
+const redCircle = new Circle("Red", 5);
+redCircle.print();
+redCircle.print();
 
-const circle = new Circle("Circle", "Red", 5);
-console.log(circle.calculateArea());
+const blueRectangle = new Rectangle("Blue", 4, 6);
+blueRectangle.calculateArea();
+blueRectangle.print();
 
-const rectangle = new Rectangle("Rectangle", "Blue", 4, 6);
-console.log(rectangle.calculateArea());
-rectangle.print();
+const greenSquare = new Square("Green", 3);
+greenSquare.calculateArea();
+greenSquare.print();
 
-const square = new Square("Square", "Green", 3);
-console.log(square.calculateArea());
-square.print();
-
-const triangle = new Triangle("Triangle", "Yellow", 4, 8);
-console.log(triangle.calculateArea());
+const yellowTriangle = new Triangle("Yellow", 4, 8);
+yellowTriangle.print();
+yellowTriangle.calculateArea();
