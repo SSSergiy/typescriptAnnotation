@@ -28,7 +28,10 @@ class Circle extends Shape {
     public readonly color: string,
     public readonly radius: number
   ) {
-    super(ShapeName.Circle, color);
+    super(
+      ShapeName.Circle,
+      color
+    );
   }
 
   public calculateArea(): number {
@@ -42,7 +45,10 @@ class Rectangle extends Shape {
     public width: number,
     public height: number
   ) {
-    super(ShapeName.Rectangle, color);
+    super(
+      ShapeName.Rectangle,
+      color
+    );
   }
 
   public calculateArea(): number {
@@ -79,7 +85,10 @@ class Triangle extends Shape {
     public base: number,
     public height: number
   ) {
-    super(ShapeName.Triangle, color);
+    super(
+      ShapeName.Triangle,
+      color
+    );
   }
 
   public calculateArea(): number {
