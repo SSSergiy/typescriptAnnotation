@@ -49,7 +49,8 @@ console.log(obj2.anotherProperty);
 //  чи відповідають значення певних ключів певним критеріям(наприклад,
 //  чи всі значення є числами).
 ///////////////////////////////////////////////////////////////////////////////////////////
-var checkValues = function (obj, keysToCheck) {
+var checkValues = function (obj) {
+    var keysToCheck = Object.keys(obj);
     return keysToCheck.every(function (key) { return typeof obj[key] === 'number'; });
 };
 var myObject6 = {
@@ -57,6 +58,5 @@ var myObject6 = {
     key2: 10,
     key3: 'не число',
 };
-var keysToCheck = ['key1', 'key2'];
-var result = checkValues(myObject6, keysToCheck);
+var result = checkValues(myObject6);
 console.log(result);

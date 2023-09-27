@@ -103,7 +103,8 @@ console.log(obj2.anotherProperty);
 //  чи всі значення є числами).
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-const checkValues = (obj: { [key: string]: any }, keysToCheck: string[]): boolean => {
+const checkValues = (obj: { [key: string]: any }): boolean => {
+  const keysToCheck = Object.keys(obj);
   return keysToCheck.every(key => typeof obj[key] === 'number');
 };
 
@@ -113,7 +114,6 @@ const myObject6 = {
   key3: 'не число',
 };
 
-const keysToCheck = ['key1', 'key2'];
-const result = checkValues(myObject6, keysToCheck);
+const result = checkValues(myObject6);
 
 console.log(result);
