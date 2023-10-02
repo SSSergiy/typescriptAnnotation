@@ -47,13 +47,16 @@ var Dictionary = /** @class */ (function () {
         this.items = {};
     }
     Dictionary.prototype.set = function (key, value) {
-        this.items[key] = value;
+        var stringKey = String(key);
+        this.items[stringKey] = value;
     };
     Dictionary.prototype.get = function (key) {
-        return this.items[key];
+        var stringKey = String(key);
+        return this.items[stringKey];
     };
     Dictionary.prototype.has = function (key) {
-        return key in this.items;
+        var stringKey = String(key);
+        return stringKey in this.items;
     };
     return Dictionary;
 }());

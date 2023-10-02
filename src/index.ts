@@ -53,19 +53,22 @@ console.log(numberStack.pop());
 // Створіть узагальнений клас Dictionary, який являє собою словник(асоціативний масив)
 //  з методами set, get і has.Обмежте ключі тільки валідними типами для об'єкта
 //////////////////////////////////////////////////////////////////////////////////////
-class Dictionary<K extends string | number, V> {
-  private items: Record<K, V> = {} as Record<K, V>;
+class Dictionary<K, V> {
+  private items: { [key: string]: V } = {};
 
   set(key: K, value: V): void {
-    this.items[key] = value;
+    const stringKey = String(key);
+    this.items[stringKey] = value;
   }
 
   get(key: K): V | undefined {
-    return this.items[key];
+    const stringKey = String(key);
+    return this.items[stringKey];
   }
 
   has(key: K): boolean {
-    return key in this.items;
+    const stringKey = String(key);
+    return stringKey in this.items;
   }
 }
 
