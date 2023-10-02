@@ -1,115 +1,80 @@
-// Створіть класи Circle, Rectangle, Square і Triangle.
-// У кожного з них є загальнодоступний метод calculateArea.
-// У кожної фігури є загальнодоступні властивості - колір і назва,
-// які не можна змінювати після створення.
-// У Square і Rectangle зі свого боку є ще додатковий метод print,
-// який виводить рядок із формулою розрахунку площі
-/////////////////////////////////
-enum ShapeName {
-  Circle = "Circle",
-  Rectangle = "Rectangle",
-  Square = "Square",
-  Triangle = "Triangle",
-}
+//////////////////////////////////////////////////////////////////////////////////////
+// Фільтрація масиву
+// Напишіть узагальнену функцію filterArray(array, condition),
+//   яка фільтрує масив елементів на основі наданої умови.
+//////////////////////////////////////////////////////////////////////////////////////
 
-class Shape {
-  constructor(
-    public readonly name: ShapeName,
-    public readonly color: string
-  ) {}
+const filterArray = <T>(array: T[], condition: (element: T) => boolean): T[] =>
+  array.filter(element => condition(element));
 
-  protected calculateArea(): number {
-    return 0;
+const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+const evenNumbers = filterArray(numbers, num => num % 2 === 0);
+
+console.log(evenNumbers);
+
+const greaterThanFive = filterArray(numbers, num => num > 5);
+
+console.log(greaterThanFive);
+
+//////////////////////////////////////////////////////////////////////////////////////
+// Узагальнений стек
+// Створіть узагальнений клас Stack, який являє собою стек елементів з методами push,
+//   pop і peek.
+//////////////////////////////////////////////////////////////////////////////////////
+
+class Stack<T> {
+  private items: T[] = [];
+
+  push(item: T): void {
+    this.items.push(item);
+  }
+
+  pop(): T | undefined {
+    return this.items.pop();
+  }
+
+  peek(): T | undefined {
+    return this.items[this.items.length - 1];
   }
 }
 
-class Circle extends Shape {
-  constructor(
-    public readonly color: string,
-    public readonly radius: number
-  ) {
-    super(
-      ShapeName.Circle,
-      color
-    );
+const numberStack = new Stack<number>();
+
+numberStack.push(1);
+numberStack.push(2);
+numberStack.push(3);
+
+console.log(numberStack.peek());
+console.log(numberStack.pop());
+
+//////////////////////////////////////////////////////////////////////////////////////
+// Узагальнений словник
+// Створіть узагальнений клас Dictionary, який являє собою словник(асоціативний масив)
+//  з методами set, get і has.Обмежте ключі тільки валідними типами для об'єкта
+//////////////////////////////////////////////////////////////////////////////////////
+class Dictionary<K extends string | number, V> {
+  private items: Record<K, V> = {} as Record<K, V>;
+
+  set(key: K, value: V): void {
+    this.items[key] = value;
   }
 
-  public calculateArea(): number {
-    return Math.PI * this.radius * this.radius;
-  }
-}
-
-class Rectangle extends Shape {
-  constructor(
-    public readonly color: string,
-    public width: number,
-    public height: number
-  ) {
-    super(
-      ShapeName.Rectangle,
-      color
-    );
+  get(key: K): V | undefined {
+    return this.items[key];
   }
 
-  public calculateArea(): number {
-    return this.width * this.height;
-  }
-
-  public print(): void {
-    console.log(`Shape: ${this.name}, Color: ${this.color}`);
-    console.log(`Area: ${this.calculateArea()}`);
+  has(key: K): boolean {
+    return key in this.items;
   }
 }
 
-class Square extends Rectangle {
-  constructor(
-    public readonly color: string,
-    public readonly sideLength: number
-  ) {
-    super(
-      color,
-      sideLength,
-      sideLength
-    );
-  }
+const stringDictionary = new Dictionary<string, number>();
 
-  public print(): void {
-    console.log(`Shape: ${this.name}, Color: ${this.color}`);
-    console.log(`Area: ${this.calculateArea()}`);
-  }
-}
+stringDictionary.set('one', 1);
+stringDictionary.set('two', 2);
 
-class Triangle extends Shape {
-  constructor(
-    public readonly color: string,
-    public base: number,
-    public height: number
-  ) {
-    super(
-      ShapeName.Triangle,
-      color
-    );
-  }
-
-  public calculateArea(): number {
-    return 0.5 * this.base * this.height;
-  }
-}
-
-const redCircle = new Circle("Red", 5);
-console.log("Circle:");
-console.log(`Shape: ${redCircle.name}, Color: ${redCircle.color}`);
-console.log(`Area: ${redCircle.calculateArea()}`);
-
-const blueRectangle = new Rectangle("Blue", 4, 6);
-console.log("Rectangle:");
-blueRectangle.print();
-
-const greenSquare = new Square("Green", 3);
-console.log("Square:");
-greenSquare.print();
-
-const yellowTriangle = new Triangle("Yellow", 4, 8);
-console.log("Triangle:");
-console.log(`Shape: ${yellowTriangle.name}, Color: ${yellowTriangle.color}`);
-console.log(`Area: ${yellowTriangle.calculateArea()}`);
+console.log(stringDictionary.has('one'));
+console.log(stringDictionary.has('three'));
+console.log(stringDictionary.get('two'));
+console.log(stringDictionary.get('four'));
