@@ -78,10 +78,10 @@ interface User {
 }
 
 const user: DeepReadonly<User> = {
-  name: 'John',
+  name: 'Angelina',
   address: {
-    city: 'New York',
-    street: '123 Main St',
+    city: 'Odessa',
+    street: '57/47 Shevchenka',
     buildings: {
       company: {
         name: 'Amanda',
@@ -147,8 +147,8 @@ type ObjectToPropertyDescriptor<T> = {
 };
 
 const obj = {
-  name: 'John',
-  age: 30,
+  name: 'Andriu',
+  age: 33,
 };
 
 const descriptors: ObjectToPropertyDescriptor<typeof obj> = {
