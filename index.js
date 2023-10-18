@@ -59,25 +59,41 @@ console.log(numericPalindrome(96));
 // [1, 2, 3], [1, 3, 2], [2, 1, 3], [2, 3, 1], [2, 3, 1], [3, 1, 2]і[3, 2, 1].
 /////////////////////////////////////////////////////////////////////////////////
 
-function getPermutations(arr) {
-  if (arr.length === 0) return [[]];
-  if (arr.length === 1) return [arr];
+var generatePermutations = (arr) => {
+  function permute(current, remaining) {
+    if (remaining.length === 0) {
+      permutations.push(current);
+    } else {
+      var first = remaining[0];
+      var rest = remaining.slice(1);
 
-  const permutations = [];
+      var addElement = (newCurrent, newRemaining) => {
+        if (newRemaining.length === 0) {
+          permutations.push(newCurrent);
+        } else {
+          permute(newCurrent, newRemaining);
+        }
+      };
 
-  arr.forEach((element, index) => {
-    const rest = [...arr.slice(0, index), ...arr.slice(index + 1)];
-    const partialPermutations = getPermutations(rest);
+      var i = 0;
+      var addNextElement = () => {
+        if (i < rest.length) {
+          addElement(current.concat(first, rest[i]), rest.slice(0, i).concat(rest.slice(i + 1)));
+          i++;
+          addNextElement();
+        }
+      };
 
-    partialPermutations.forEach((perm) => {
-      permutations.push([element, ...perm]);
-    });
-  });
+      addElement(current.concat(first), rest);
+      addNextElement();
+    }
+  }
 
+  var permutations = [];
+  permute([], arr);
   return permutations;
 }
 
-const inputArray = [1, 2, 3, 6];
-const result = getPermutations(inputArray);
+console.log(generatePermutations([1, 2, 3, 6]));
 
-console.log(result);
+
